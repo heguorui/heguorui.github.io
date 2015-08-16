@@ -3,17 +3,27 @@
 <head>
   <meta charset="utf-8">
   
-  <title>guoruihe&#39;s blog -- 贺国睿</title>
+  <title>【iOS8】【沙盒机制】sandbox机制 | guoruihe&#39;s blog -- 贺国睿</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="guoruihe, blog, iOS, C/C++, Java, Object-C, PHP, Android">
-<meta property="og:type" content="website">
-<meta property="og:title" content="guoruihe's blog -- 贺国睿">
-<meta property="og:url" content="http://yoursite.com/index.html">
+  <meta name="description" content="沙盒机制概述iOS操作系统为了保证应用的安全性，规定了应用只能访问指定的目录下的资源，超出这个目录的任何位置都将不能够访问、不能操作。这个目录被称为沙盒。
+iOS要求应用所需要的所有非代码、可执行数据，都需要存放在沙盒下，包括了图像，图标，声音，映像，属性列表，文本文件等。
+不仅如此，当将数据存储到指定目录下时，数据还将受到严格的检测，只有在应用权限下的数据操作，才能够被允许执行。
+沙盒所在的位置">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【iOS8】【沙盒机制】sandbox机制">
+<meta property="og:url" content="http://yoursite.com/2015/08/16/【iOS8】【沙盒机制】sandbox机制/index.html">
 <meta property="og:site_name" content="guoruihe's blog -- 贺国睿">
-<meta property="og:description" content="guoruihe, blog, iOS, C/C++, Java, Object-C, PHP, Android">
+<meta property="og:description" content="沙盒机制概述iOS操作系统为了保证应用的安全性，规定了应用只能访问指定的目录下的资源，超出这个目录的任何位置都将不能够访问、不能操作。这个目录被称为沙盒。
+iOS要求应用所需要的所有非代码、可执行数据，都需要存放在沙盒下，包括了图像，图标，声音，映像，属性列表，文本文件等。
+不仅如此，当将数据存储到指定目录下时，数据还将受到严格的检测，只有在应用权限下的数据操作，才能够被允许执行。
+沙盒所在的位置">
+<meta property="og:updated_time" content="2015-08-16T15:55:27.061Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="guoruihe's blog -- 贺国睿">
-<meta name="twitter:description" content="guoruihe, blog, iOS, C/C++, Java, Object-C, PHP, Android">
+<meta name="twitter:title" content="【iOS8】【沙盒机制】sandbox机制">
+<meta name="twitter:description" content="沙盒机制概述iOS操作系统为了保证应用的安全性，规定了应用只能访问指定的目录下的资源，超出这个目录的任何位置都将不能够访问、不能操作。这个目录被称为沙盒。
+iOS要求应用所需要的所有非代码、可执行数据，都需要存放在沙盒下，包括了图像，图标，声音，映像，属性列表，文本文件等。
+不仅如此，当将数据存储到指定目录下时，数据还将受到严格的检测，只有在应用权限下的数据操作，才能够被允许执行。
+沙盒所在的位置">
   
     <link rel="alternative" href="/atom.xml" title="guoruihe&#39;s blog -- 贺国睿" type="application/atom+xml">
   
@@ -63,9 +73,7 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main">
-  
-    <article id="post-【iOS8】【沙盒机制】sandbox机制" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-【iOS8】【沙盒机制】sandbox机制" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2015/08/16/【iOS8】【沙盒机制】sandbox机制/" class="article-date">
   <time datetime="2015-08-16T15:53:30.000Z" itemprop="datePublished">2015-08-16</time>
@@ -82,8 +90,8 @@
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/08/16/【iOS8】【沙盒机制】sandbox机制/">【iOS8】【沙盒机制】sandbox机制</a>
+    <h1 class="article-title" itemprop="name">
+      【iOS8】【沙盒机制】sandbox机制
     </h1>
   
 
@@ -118,11 +126,10 @@
     </footer>
   </div>
   
+    
+  
 </article>
 
-
-  
-  
 </section>
         
           <aside id="sidebar">
