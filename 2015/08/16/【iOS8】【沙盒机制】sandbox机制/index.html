@@ -17,7 +17,7 @@ iOS要求应用所需要的所有非代码、可执行数据，都需要存放�
 iOS要求应用所需要的所有非代码、可执行数据，都需要存放在沙盒下，包括了图像，图标，声音，映像，属性列表，文本文件等。
 不仅如此，当将数据存储到指定目录下时，数据还将受到严格的检测，只有在应用权限下的数据操作，才能够被允许执行。
 沙盒所在的位置">
-<meta property="og:updated_time" content="2015-08-16T15:55:27.061Z">
+<meta property="og:updated_time" content="2015-08-16T16:19:24.569Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【iOS8】【沙盒机制】sandbox机制">
 <meta name="twitter:description" content="沙盒机制概述iOS操作系统为了保证应用的安全性，规定了应用只能访问指定的目录下的资源，超出这个目录的任何位置都将不能够访问、不能操作。这个目录被称为沙盒。
@@ -99,26 +99,37 @@ iOS要求应用所需要的所有非代码、可执行数据，都需要存放�
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>沙盒机制概述<br>iOS操作系统为了保证应用的安全性，规定了应用只能访问指定的目录下的资源，超出这个目录的任何位置都将不能够访问、不能操作。这个目录被称为沙盒。</p>
+        <h1 id="沙盒机制概述">沙盒机制概述</h1><p>iOS操作系统为了保证应用的安全性，规定了应用只能访问指定的目录下的资源，超出这个目录的任何位置都将不能够访问、不能操作。这个目录被称为沙盒。</p>
 <p>iOS要求应用所需要的所有非代码、可执行数据，都需要存放在沙盒下，包括了图像，图标，声音，映像，属性列表，文本文件等。</p>
 <p>不仅如此，当将数据存储到指定目录下时，数据还将受到严格的检测，只有在应用权限下的数据操作，才能够被允许执行。</p>
-<p>沙盒所在的位置<br>沙盒实际上是一个指定的目录。<br>在Mac OS上开发使用仿真器时，文件存放位置为/Users/username/Library/Application Support/iPhone Simulator/，这是一个隐藏文件，需要设置Mac OS的隐藏文件显示才能够查看，也可以使用Finder的”前往文件夹“方式查看。</p>
+<h1 id="沙盒所在的位置">沙盒所在的位置</h1><p>沙盒实际上是一个指定的目录。<br>在Mac OS上开发使用仿真器时，文件存放位置为/Users/username/Library/Application Support/iPhone Simulator/，这是一个隐藏文件，需要设置Mac OS的隐藏文件显示才能够查看，也可以使用Finder的”前往文件夹“方式查看。</p>
 <p>Mac OS设置隐藏文件的命令如下：<br>显示/隐藏Mac隐藏文件的命令：defaults write com.apple.finder AppleShowAllFiles -bool true/false（true是显示，false是隐藏）</p>
 <p>在真机上，沙盒目录位于/var/mobile/Applications/下。 </p>
 <p>沙盒目录的名称是根据应用计算出来的一个GUID（Global Unique Identifier），GUID文件夹就是应用的沙盒。</p>
-<p>沙盒目录结构<br>每一个应用都具有一个沙盒，应用即便是在沙盒中，其文件操作权限也受到了较多的限制，应用可以操作的目录如下：<br>Documents：应用中用户数据可以放在这里，iTunes备份和恢复的时候会包括此目录；<br>tmp：存放临时文件，iTunes不会备份和恢复此目录，此目录下文件可能会在应用退出后删除；<br>Library：存储程序的默认设置或其它状态信息，iTunes备份和恢复的时候会包括此目录；<br>Library/Caches：存放缓存文件，iTunes不会备份此目录，此目录下文件不会在应用退出删除。<br>此外，需要特别注意，iOS系统对上述文件的操作：<br>iTunes在与iPhone同步时，备份所有的Documents和Library文件；<br>iPhone在重启时，会丢弃所有的tmp文件。</p>
-<p>沙盒操作<br>获取各类目录<br>Home目录<br>Home目录指的是应用的Home目录，而不是操作系统的当前用户的Home目录。iOS为每一个应用都设置了沙盒，沙盒目录就是该应用的Home。获取Home目录的方法如下：<br>NSString *homeDirectory = NSHomeDirectory(); </p>
-<p>Document目录<br>NSArray <em>paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);<br>NSString </em>path = [paths objectAtIndex:0];<br>说明：NSSearchPathForDirectoriesInDomains方法是Mac OS所具有的一个函数，它会返回所有符合条件的目录，但在iOS系统中，沙盒下只有一个Document目录，所以直接取Index为0的元素即可。</p>
-<p>Cache目录：<br>NSArray <em>paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);<br>NSString </em>path = [paths objectAtIndex:0]; </p>
-<p>Library目录：<br>NSArray <em>paths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);<br>NSString </em>path = [paths objectAtIndex:0];</p>
-<p>Temp目录：<br>Temp目录获取与其他目录有所不同，获取时，需要使用函数直接获取：<br>NSString *tmpPath = NSTemporaryDirectory();</p>
-<p>文件目录操作<br>通过文件操作对象和函数，可以完成简单的数据写入和读取，应注意Temp目录下的文件并非永久保留，在备份和重启时，都会忽略或清空该目录下文件。</p>
-<p>通过NSFileManager实现目录的操作<br>简单的文件和目录操作如下：<br>NSFileManager <em>fileManager = [NSFileManager defaultManager];<br>创建目录：<br>[fileManager createDirectoryAtPath:directoryPath withIntermediateDirectories:YES attributes:nil error:nil];<br>获取目录下内容：<br>NSArray </em>file = [fileManage subpathsOfDirectoryAtPath:directoryPath error:nil];<br>或者<br>NSArray <em>files = [fileManage subpathsAtPath:directoryPath];<br>更改NSFileManager的工作目录：<br>[fileManager changeCurrentDirectoryPath:[directoryPath stringByExpandingTildeInPath]];<br>创建文件并写入内容：<br>NSString </em>content = @””;<br>[fileManager createFileAtPath:filePath contents:[content dataUsingEncoding:NSUTF8StringEncoding] attributes:nil];<br>删除文件<br>[fileManager removeItemAtPath:filePath error:nil];  </p>
-
+<h1 id="沙盒目录结构">沙盒目录结构</h1><p>每一个应用都具有一个沙盒，应用即便是在沙盒中，其文件操作权限也受到了较多的限制，应用可以操作的目录如下：<br>Documents：应用中用户数据可以放在这里，iTunes备份和恢复的时候会包括此目录；<br>tmp：存放临时文件，iTunes不会备份和恢复此目录，此目录下文件可能会在应用退出后删除；<br>Library：存储程序的默认设置或其它状态信息，iTunes备份和恢复的时候会包括此目录；<br>Library/Caches：存放缓存文件，iTunes不会备份此目录，此目录下文件不会在应用退出删除。<br>此外，需要特别注意，iOS系统对上述文件的操作：<br>iTunes在与iPhone同步时，备份所有的Documents和Library文件；<br>iPhone在重启时，会丢弃所有的tmp文件。</p>
+<h1 id="沙盒操作">沙盒操作</h1><h2 id="获取各类目录">获取各类目录</h2><h3 id="Home目录">Home目录</h3><p>Home目录指的是应用的Home目录，而不是操作系统的当前用户的Home目录。iOS为每一个应用都设置了沙盒，沙盒目录就是该应用的Home。获取Home目录的方法如下：<br>    NSString *homeDirectory = NSHomeDirectory(); </p>
+<h3 id="Document目录">Document目录</h3><pre><code><span class="built_in">NSArray</span> *paths = <span class="built_in">NSSearchPathForDirectoriesInDomains</span>(<span class="built_in">NSDocumentDirectory</span>, <span class="built_in">NSUserDomainMask</span>, <span class="literal">YES</span>); 
+<span class="built_in">NSString</span> *path = [paths objectAtIndex:<span class="number">0</span>];
+</code></pre><p>说明：NSSearchPathForDirectoriesInDomains方法是Mac OS所具有的一个函数，它会返回所有符合条件的目录，但在iOS系统中，沙盒下只有一个Document目录，所以直接取Index为0的元素即可。</p>
+<h3 id="Cache目录：">Cache目录：</h3><pre><code><span class="built_in">NSArray</span> *paths = <span class="built_in">NSSearchPathForDirectoriesInDomains</span>(<span class="built_in">NSCachesDirectory</span>, <span class="built_in">NSUserDomainMask</span>, <span class="literal">YES</span>); 
+<span class="built_in">NSString</span> *path = [paths objectAtIndex:<span class="number">0</span>]; 
+</code></pre><h3 id="Library目录：">Library目录：</h3><pre><code><span class="built_in">NSArray</span> *paths = <span class="built_in">NSSearchPathForDirectoriesInDomains</span>(<span class="built_in">NSLibraryDirectory</span>, <span class="built_in">NSUserDomainMask</span>, <span class="literal">YES</span>); 
+<span class="built_in">NSString</span> *path = [paths objectAtIndex:<span class="number">0</span>];
+</code></pre><h3 id="Temp目录：">Temp目录：</h3><p>Temp目录获取与其他目录有所不同，获取时，需要使用函数直接获取：<br>    NSString *tmpPath = NSTemporaryDirectory();</p>
+<h1 id="文件目录操作">文件目录操作</h1><p>通过文件操作对象和函数，可以完成简单的数据写入和读取，应注意Temp目录下的文件并非永久保留，在备份和重启时，都会忽略或清空该目录下文件。</p>
+<h2 id="通过NSFileManager实现目录的操作">通过NSFileManager实现目录的操作</h2><p>简单的文件和目录操作如下：<br>    NSFileManager *fileManager = [NSFileManager defaultManager];</p>
+<h3 id="创建目录：">创建目录：</h3><pre><code>[fileManager <span class="string">createDirectoryAtPath:</span>directoryPath <span class="string">withIntermediateDirectories:</span>YES <span class="string">attributes:</span>nil <span class="string">error:</span>nil];
+</code></pre><h3 id="获取目录下内容：">获取目录下内容：</h3><pre><code>NSArray *<span class="type">file</span> = [fileManage subpathsOfDirectoryAtPath:directoryPath <span class="keyword">error</span>:nil];
+</code></pre><p>或者<br>    NSArray *files = [fileManage subpathsAtPath:directoryPath];</p>
+<h3 id="更改NSFileManager的工作目录：">更改NSFileManager的工作目录：</h3><pre><code><span class="collection">[fileManager changeCurrentDirectoryPath:<span class="collection">[directoryPath stringByExpandingTildeInPath]</span>]</span><span class="comment">;  </span>
+</code></pre><h3 id="创建文件并写入内容：">创建文件并写入内容：</h3><pre><code>NSString *content = @<span class="string">""</span>;
+[fileManager <span class="string">createFileAtPath:</span>filePath <span class="string">contents:</span>[content <span class="string">dataUsingEncoding:</span>NSUTF8StringEncoding] <span class="string">attributes:</span>nil];
+</code></pre><h3 id="删除文件">删除文件</h3><pre><code>[fileManager <span class="string">removeItemAtPath:</span>filePath <span class="string">error:</span>nil];  
+</code></pre>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/08/16/【iOS8】【沙盒机制】sandbox机制/" data-id="cideocbog0000p4uvyj3nf1i3" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/08/16/【iOS8】【沙盒机制】sandbox机制/" data-id="cideounrk0000e4uvd7rjzqxu" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/sandbox/">sandbox</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/沙盒机制/">沙盒机制</a></li></ul>
