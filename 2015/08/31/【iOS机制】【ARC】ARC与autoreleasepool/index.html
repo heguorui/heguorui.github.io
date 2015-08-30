@@ -3,17 +3,21 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Tag: iOS | guoruihe&#39;s blog -- 贺国睿</title>
+  <title>【iOS机制】【ARC】ARC与autoreleasepool | guoruihe&#39;s blog -- 贺国睿</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="guoruihe, blog, iOS, C/C++, Java, Object-C, PHP, Android">
-<meta property="og:type" content="website">
-<meta property="og:title" content="guoruihe's blog -- 贺国睿">
-<meta property="og:url" content="http://yoursite.com/tags/iOS/index.html">
+  <meta name="description" content="在不了解Object-C的机制，只是简单的学习的情况下，ARC和auroreleasepool都是实现了内存自动管理的一种机制，很容易混淆，也很容易让人产生躁动的难以理解，到底是用ARC还是用autoreleasepool。
+其实，这是一个很无聊的问题，因为我也迷惑过，所以记录一下。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【iOS机制】【ARC】ARC与autoreleasepool">
+<meta property="og:url" content="http://yoursite.com/2015/08/31/【iOS机制】【ARC】ARC与autoreleasepool/index.html">
 <meta property="og:site_name" content="guoruihe's blog -- 贺国睿">
-<meta property="og:description" content="guoruihe, blog, iOS, C/C++, Java, Object-C, PHP, Android">
+<meta property="og:description" content="在不了解Object-C的机制，只是简单的学习的情况下，ARC和auroreleasepool都是实现了内存自动管理的一种机制，很容易混淆，也很容易让人产生躁动的难以理解，到底是用ARC还是用autoreleasepool。
+其实，这是一个很无聊的问题，因为我也迷惑过，所以记录一下。">
+<meta property="og:updated_time" content="2015-08-30T16:16:23.151Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="guoruihe's blog -- 贺国睿">
-<meta name="twitter:description" content="guoruihe, blog, iOS, C/C++, Java, Object-C, PHP, Android">
+<meta name="twitter:title" content="【iOS机制】【ARC】ARC与autoreleasepool">
+<meta name="twitter:description" content="在不了解Object-C的机制，只是简单的学习的情况下，ARC和auroreleasepool都是实现了内存自动管理的一种机制，很容易混淆，也很容易让人产生躁动的难以理解，到底是用ARC还是用autoreleasepool。
+其实，这是一个很无聊的问题，因为我也迷惑过，所以记录一下。">
   
     <link rel="alternative" href="/atom.xml" title="guoruihe&#39;s blog -- 贺国睿" type="application/atom+xml">
   
@@ -63,115 +67,72 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main">
-  
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2015" class="archive-year">2015</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2015/08/31/【iOS机制】【ARC】ARC与autoreleasepool/" class="archive-article-date">
-  <time datetime="2015-08-30T16:14:55.000Z" itemprop="datePublished">8月 31</time>
+        <section id="main"><article id="post-【iOS机制】【ARC】ARC与autoreleasepool" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/08/31/【iOS机制】【ARC】ARC与autoreleasepool/" class="article-date">
+  <time datetime="2015-08-30T16:14:55.000Z" itemprop="datePublished">2015-08-31</time>
 </a>
-      
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/iOS笔记/">iOS笔记</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2015/08/31/【iOS机制】【ARC】ARC与autoreleasepool/">【iOS机制】【ARC】ARC与autoreleasepool</a>
+    <h1 class="article-title" itemprop="name">
+      【iOS机制】【ARC】ARC与autoreleasepool
     </h1>
   
 
-    </header>
-  </div>
-</article>
-  
+      </header>
     
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2015/08/30/【iOS】【容器】容器的内存管理笔记/" class="archive-article-date">
-  <time datetime="2015-08-30T09:32:53.000Z" itemprop="datePublished">8月 30</time>
-</a>
+    <div class="article-entry" itemprop="articleBody">
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2015/08/30/【iOS】【容器】容器的内存管理笔记/">【iOS】【容器】容器的内存管理笔记</a>
-    </h1>
-  
+        <p>在不了解Object-C的机制，只是简单的学习的情况下，ARC和auroreleasepool都是实现了内存自动管理的一种机制，很容易混淆，也很容易让人产生躁动的难以理解，到底是用ARC还是用autoreleasepool。</p>
+<p>其实，这是一个很无聊的问题，因为我也迷惑过，所以记录一下。<br><a id="more"></a></p>
+<h1 id="ARC">ARC</h1><p>ARC是一种编译机制，在开发过程中，对项目设置ARC时，将由编译器代替手动内存管理，即ARC取代MRC，你不用再去retain、co1y、release等等，你只需要去创建、去使用，不需要去管理内存。但这仅仅是你不需要去做，而是由编译器代替你去做。编译器是严谨的，它不会遗漏任何一个需要释放的内存。但需要明白的时，ARC时，编译器仅仅是代替你完成MRC时你做的事情，比如赋值时retain或copy，释放时的release，ARC并没有改变任何的内存管理机制，比如说autoreleasepool。<br>所以，请明白，ARC是一种编译器的内存管理辅助，而并非新的内存管理机制，所有的一切，在最终编译之后，ARC与MRC时一致的。</p>
+<h1 id="autoreleasepool">autoreleasepool</h1><p>autoreleasepool实现了延时释放机制，当autoreleasepool被释放时，它会将放入到它之中的所有的对象进行释放，无论是ARC还是MRC，都需要正确的进行计数引用，才能够保证内存的释放，只不过MRC是你进行引用计数，ARC是编译器进行引用计数的相应代码增加，对最终的运行时机制，没有任何的改变。</p>
+<p>autoreleasepool依然依赖于NSAutoreleasepool来完成。在适当的情况下，你需要建立autoreleasepool，来及时的释放不必要的内存空间。autoreleasepool并不总是被自动创建，很多情况下，需要手动创建，所以，你需要清楚的了解，什么时候autoreleasepool会被自动创建，什么时候需要你手动创建。<br>自动创建的情况如下：</p>
+<ol>
+<li>使用NSThread的detachNewThreadSelector:toTarget:withObject:方法创建新线程时，新线程自动带有autoreleasepool。</li>
+<li>Main thread of Cocoa Application。<br>需要手动创建的情况：<ol>
+<li>针对没有自动创建autoreleasepool，且有延迟释放需求的情况：如main函数中，没有被自动的创建，所以，一般XCode都会添加@autoreleasepool{}内容。</li>
+<li>注意使用dispatch queue时，虽然池中的每一个线程都具有自己的autoreleasepool，但是线程退出前这些autoreleasepool不会被释放，如果一直提交task给线程，并且task中使用autorelease创建对象，那么，将会造成task结束时内存无法释放，实际上等同于内存泄露，其他地方依然无法得到内存。所以，如果你的task创建了对象，最好给每个task都创建一个autoreleasepool。</li>
+<li>除了线程池以外，当在某些大量循环内，创建了大量的autorelease对象，但循环每次并没有办法释放，所以，当有在大循环中创建autorelease对象时，要考虑每个循环时创建autoreleasepool，否则循环前后也将占用大量内存。</li>
+</ol>
+</li>
+</ol>
 
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2015/08/23/【iOS】【UINavigationController】UINavigationController使用笔记/" class="archive-article-date">
-  <time datetime="2015-08-23T08:21:40.000Z" itemprop="datePublished">8月 23</time>
-</a>
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2015/08/23/【iOS】【UINavigationController】UINavigationController使用笔记/">【iOS】【UINavigationController】UINavigationController使用笔记</a>
-    </h1>
-  
-
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2015/08/19/【iOS】【UITableView】UITableView使用的简单笔记/" class="archive-article-date">
-  <time datetime="2015-08-19T15:49:34.000Z" itemprop="datePublished">8月 19</time>
-</a>
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2015/08/31/【iOS机制】【ARC】ARC与autoreleasepool/" data-id="cidyp949m000cycuvspzculi7" class="article-share-link">Share</a>
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2015/08/19/【iOS】【UITableView】UITableView使用的简单笔记/">【iOS】【UITableView】UITableView使用的简单笔记</a>
-    </h1>
-  
-
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2015/08/16/【iOS】【沙盒机制】sandbox机制/" class="archive-article-date">
-  <time datetime="2015-08-16T15:53:30.000Z" itemprop="datePublished">8月 16</time>
-</a>
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2015/08/16/【iOS】【沙盒机制】sandbox机制/">【iOS】【沙盒机制】sandbox机制</a>
-    </h1>
-  
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ARC/">ARC</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/autoreleasepool/">autoreleasepool</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
 
-    </header>
+    </footer>
   </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2015/08/30/【iOS】【容器】容器的内存管理笔记/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">【iOS】【容器】容器的内存管理笔记</div>
+    </a>
+  
+</nav>
+
+  
 </article>
-  
-  
-    </div></section>
-  
+
 </section>
         
           <aside id="sidebar">

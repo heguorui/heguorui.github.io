@@ -11,7 +11,7 @@
 <meta property="og:url" content="http://yoursite.com/2015/08/30/【iOS】【容器】容器的内存管理笔记/index.html">
 <meta property="og:site_name" content="guoruihe's blog -- 贺国睿">
 <meta property="og:description" content="iOS提供了很多的容器，包括可变容器、不可变容器，如NSArray、NSMutableArray、NSSet、NSMutableSet、NSIndexSet、NSDictionary、NSMutableDictionary、NSHashTable等等，这些容器的使用，对于OC老手来说不成问题，对其各类操作的本质实现也是深入探究，所以，作为新手的我，也来好好学习和探究一下。">
-<meta property="og:updated_time" content="2015-08-30T09:37:34.583Z">
+<meta property="og:updated_time" content="2015-08-30T09:46:27.496Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【iOS】【容器】容器的内存管理笔记">
 <meta name="twitter:description" content="iOS提供了很多的容器，包括可变容器、不可变容器，如NSArray、NSMutableArray、NSSet、NSMutableSet、NSIndexSet、NSDictionary、NSMutableDictionary、NSHashTable等等，这些容器的使用，对于OC老手来说不成问题，对其各类操作的本质实现也是深入探究，所以，作为新手的我，也来好好学习和探究一下。">
@@ -92,12 +92,11 @@
       
         <p>iOS提供了很多的容器，包括可变容器、不可变容器，如NSArray、NSMutableArray、NSSet、NSMutableSet、NSIndexSet、NSDictionary、NSMutableDictionary、NSHashTable等等，这些容器的使用，对于OC老手来说不成问题，对其各类操作的本质实现也是深入探究，所以，作为新手的我，也来好好学习和探究一下。</p>
 <a id="more"></a>
-<p>容器的基本用法<br>容器的基本用法很多，就不一一探究了。</p>
-<p>容器的add操作<br>容器中只能容纳对象类型的变量，所以，需要关注一下容器的add操作，在内存中的变化。<br>容器在add对象时，会将对象进行浅复制，也就是说，在add操作时，所执行的是retain操作，这样保证了对象被其他引用释放时，容器还能持有add进来的对象，这是很容易明白的。</p>
-<p>容器的remove操作<br>容器在remove对象时，将会执行release操作，如果对象此时引用计数还不为1，则不会释放对象，如果引用计数已经是1，那么将释放对象。<br>所以，请使用MRC时注意，当你将一个对象add到容器后，如果你不打算在容器外使用这个对象，那么，请尽快将这个对象release掉，并且消灭野指针，否则离开作用域后，你将会出现内存泄漏问题。</p>
+<h2 id="容器的基本用法">容器的基本用法</h2><p>容器的基本用法很多，就不一一探究了。</p>
+<h2 id="容器的add操作">容器的add操作</h2><p>容器中只能容纳对象类型的变量，所以，需要关注一下容器的add操作，在内存中的变化。<br>容器在add对象时，会将对象进行浅复制，也就是说，在add操作时，所执行的是retain操作，这样保证了对象被其他引用释放时，容器还能持有add进来的对象，这是很容易明白的。</p>
+<h2 id="容器的remove操作">容器的remove操作</h2><p>容器在remove对象时，将会执行release操作，如果对象此时引用计数还不为1，则不会释放对象，如果引用计数已经是1，那么将释放对象。<br>所以，请使用MRC时注意，当你将一个对象add到容器后，如果你不打算在容器外使用这个对象，那么，请尽快将这个对象release掉，并且消灭野指针，否则离开作用域后，你将会出现内存泄漏问题。</p>
 <p>容器除了在remove操作时，在自己被release时，也是会将放入容器中的对象进行release处理，这个也很好理解，不容容器都销毁了，那就是内存泄漏了。</p>
-<p>代码测试：</p>
-<pre><code><span class="built_in">NSString</span> *newstr1 = [<span class="built_in">NSString</span> stringWithFormat:<span class="string">@"%@"</span>, <span class="string">@"a"</span>];
+<h2 id="代码测试：">代码测试：</h2><pre><code><span class="built_in">NSString</span> *newstr1 = [<span class="built_in">NSString</span> stringWithFormat:<span class="string">@"%@"</span>, <span class="string">@"a"</span>];
 <span class="built_in">NSString</span> *newstr2 = [<span class="built_in">NSString</span> stringWithFormat:<span class="string">@"%@"</span>, <span class="string">@"b"</span>];
 <span class="built_in">NSLog</span>(<span class="string">@"初始化时："</span>);
 <span class="built_in">NSLog</span>(<span class="string">@"newstr1 retain count : %lu"</span>,(<span class="keyword">unsigned</span> <span class="keyword">long</span>)[newstr1 retainCount]);
@@ -151,8 +150,7 @@ array3 = <span class="literal">nil</span>;
 <span class="keyword">for</span>(<span class="built_in">NSString</span> *str <span class="keyword">in</span> array1){
     <span class="built_in">NSLog</span>(<span class="string">@"str in array1 retain count : %lu"</span>,(<span class="keyword">unsigned</span> <span class="keyword">long</span>)[str retainCount]);
 }
-</code></pre><p>输出结果：</p>
-<pre><code><span class="number">2015</span>-<span class="number">08</span>-<span class="number">29</span> <span class="number">16</span>:<span class="number">19</span>:<span class="number">06.014</span> MemoryOperateTest[<span class="number">28262</span>:<span class="number">434295</span>] 初始化时：
+</code></pre><h2 id="输出结果：">输出结果：</h2><pre><code><span class="number">2015</span>-<span class="number">08</span>-<span class="number">29</span> <span class="number">16</span>:<span class="number">19</span>:<span class="number">06.014</span> MemoryOperateTest[<span class="number">28262</span>:<span class="number">434295</span>] 初始化时：
 <span class="number">2015</span>-<span class="number">08</span>-<span class="number">29</span> <span class="number">16</span>:<span class="number">19</span>:<span class="number">06.015</span> MemoryOperateTest[<span class="number">28262</span>:<span class="number">434295</span>] newstr1 retain count : <span class="number">1</span>
 <span class="number">2015</span>-<span class="number">08</span>-<span class="number">29</span> <span class="number">16</span>:<span class="number">19</span>:<span class="number">06.015</span> MemoryOperateTest[<span class="number">28262</span>:<span class="number">434295</span>] newstr2 retain count : <span class="number">1</span>
 <span class="number">2015</span>-<span class="number">08</span>-<span class="number">29</span> <span class="number">16</span>:<span class="number">19</span>:<span class="number">06.015</span> MemoryOperateTest[<span class="number">28262</span>:<span class="number">434295</span>] 添加到array1：
@@ -188,7 +186,7 @@ array3 = <span class="literal">nil</span>;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/08/30/【iOS】【容器】容器的内存管理笔记/" data-id="cidyazneo000ltwuvh72fg8qi" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/08/30/【iOS】【容器】容器的内存管理笔记/" data-id="cidyp94a8000tycuvgytpjkre" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/内存管理/">内存管理</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/容器/">容器</a></li></ul>
@@ -198,6 +196,15 @@ array3 = <span class="literal">nil</span>;
   
     
 <nav id="article-nav">
+  
+    <a href="/2015/08/31/【iOS机制】【ARC】ARC与autoreleasepool/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          【iOS机制】【ARC】ARC与autoreleasepool
+        
+      </div>
+    </a>
   
   
     <a href="/2015/08/23/【iOS】【UINavigationController】UINavigationController使用笔记/" id="article-nav-older" class="article-nav-link-wrap">
@@ -218,7 +225,7 @@ array3 = <span class="literal">nil</span>;
   <div class="widget-wrap">
     <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ALL/">ALL</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/C/">C++</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS笔记/">iOS笔记</a><span class="category-list-count">3</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ALL/">ALL</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/C/">C++</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS笔记/">iOS笔记</a><span class="category-list-count">4</span></li></ul>
     </div>
   </div>
 
@@ -227,7 +234,7 @@ array3 = <span class="literal">nil</span>;
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/C/">C++</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/STL/">STL</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UINavigationController/">UINavigationController</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UITableView/">UITableView</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS/">iOS</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sandbox/">sandbox</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/个人规划/">个人规划</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/内存管理/">内存管理</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/容器/">容器</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/沙盒机制/">沙盒机制</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ARC/">ARC</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C/">C++</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/STL/">STL</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UINavigationController/">UINavigationController</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UITableView/">UITableView</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/autoreleasepool/">autoreleasepool</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS/">iOS</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sandbox/">sandbox</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/个人规划/">个人规划</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/内存管理/">内存管理</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/容器/">容器</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/沙盒机制/">沙盒机制</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -236,7 +243,7 @@ array3 = <span class="literal">nil</span>;
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/C/" style="font-size: 10px;">C++</a> <a href="/tags/STL/" style="font-size: 10px;">STL</a> <a href="/tags/UINavigationController/" style="font-size: 10px;">UINavigationController</a> <a href="/tags/UITableView/" style="font-size: 10px;">UITableView</a> <a href="/tags/iOS/" style="font-size: 20px;">iOS</a> <a href="/tags/sandbox/" style="font-size: 10px;">sandbox</a> <a href="/tags/个人规划/" style="font-size: 10px;">个人规划</a> <a href="/tags/内存管理/" style="font-size: 10px;">内存管理</a> <a href="/tags/容器/" style="font-size: 10px;">容器</a> <a href="/tags/沙盒机制/" style="font-size: 10px;">沙盒机制</a>
+      <a href="/tags/ARC/" style="font-size: 10px;">ARC</a> <a href="/tags/C/" style="font-size: 10px;">C++</a> <a href="/tags/STL/" style="font-size: 10px;">STL</a> <a href="/tags/UINavigationController/" style="font-size: 10px;">UINavigationController</a> <a href="/tags/UITableView/" style="font-size: 10px;">UITableView</a> <a href="/tags/autoreleasepool/" style="font-size: 10px;">autoreleasepool</a> <a href="/tags/iOS/" style="font-size: 20px;">iOS</a> <a href="/tags/sandbox/" style="font-size: 10px;">sandbox</a> <a href="/tags/个人规划/" style="font-size: 10px;">个人规划</a> <a href="/tags/内存管理/" style="font-size: 10px;">内存管理</a> <a href="/tags/容器/" style="font-size: 10px;">容器</a> <a href="/tags/沙盒机制/" style="font-size: 10px;">沙盒机制</a>
     </div>
   </div>
 
@@ -245,7 +252,7 @@ array3 = <span class="literal">nil</span>;
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">八月 2015</a><span class="archive-list-count">6</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">八月 2015</a><span class="archive-list-count">7</span></li></ul>
     </div>
   </div>
 
@@ -255,6 +262,10 @@ array3 = <span class="literal">nil</span>;
     <h3 class="widget-title">Recents</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2015/08/31/【iOS机制】【ARC】ARC与autoreleasepool/">【iOS机制】【ARC】ARC与autoreleasepool</a>
+          </li>
         
           <li>
             <a href="/2015/08/30/【iOS】【容器】容器的内存管理笔记/">【iOS】【容器】容器的内存管理笔记</a>
@@ -270,10 +281,6 @@ array3 = <span class="literal">nil</span>;
         
           <li>
             <a href="/2015/08/19/【iOS】【UITableView】UITableView使用的简单笔记/">【iOS】【UITableView】UITableView使用的简单笔记</a>
-          </li>
-        
-          <li>
-            <a href="/2015/08/18/总纲/">总纲</a>
           </li>
         
       </ul>
