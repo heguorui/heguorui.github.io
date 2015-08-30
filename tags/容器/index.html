@@ -3,18 +3,17 @@
 <head>
   <meta charset="utf-8">
   
-  <title>【C++】【STL】读《STL源码剖析》笔记 | guoruihe&#39;s blog -- 贺国睿</title>
+  <title>Tag: 容器 | guoruihe&#39;s blog -- 贺国睿</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="读侯捷老师的《STL源码剖析》，有一种醍醐灌顶的感觉，侯捷先生对STL的实现，有着非常透彻的理解，通过他的思考方式和他的目光之所在，能够精准的触摸到STL的精髓。《STL源码剖析》对STL的一些技法做了有点有面的剖析，从入门基础、空间配置、空间管理，到类型萃取，都是理解STL必不可少的东西，然而很多的STL介绍中，往往直接进入到使用方法，而忽视了这一部分的基础性和重要性，缺少了这一部分，将不可能真">
-<meta property="og:type" content="article">
-<meta property="og:title" content="【C++】【STL】读《STL源码剖析》笔记">
-<meta property="og:url" content="http://yoursite.com/2015/08/23/【C-】【STL】读《STL源码剖析》笔记/index.html">
+  <meta name="description" content="guoruihe, blog, iOS, C/C++, Java, Object-C, PHP, Android">
+<meta property="og:type" content="website">
+<meta property="og:title" content="guoruihe's blog -- 贺国睿">
+<meta property="og:url" content="http://yoursite.com/tags/容器/index.html">
 <meta property="og:site_name" content="guoruihe's blog -- 贺国睿">
-<meta property="og:description" content="读侯捷老师的《STL源码剖析》，有一种醍醐灌顶的感觉，侯捷先生对STL的实现，有着非常透彻的理解，通过他的思考方式和他的目光之所在，能够精准的触摸到STL的精髓。《STL源码剖析》对STL的一些技法做了有点有面的剖析，从入门基础、空间配置、空间管理，到类型萃取，都是理解STL必不可少的东西，然而很多的STL介绍中，往往直接进入到使用方法，而忽视了这一部分的基础性和重要性，缺少了这一部分，将不可能真">
-<meta property="og:updated_time" content="2015-08-23T08:19:27.064Z">
+<meta property="og:description" content="guoruihe, blog, iOS, C/C++, Java, Object-C, PHP, Android">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="【C++】【STL】读《STL源码剖析》笔记">
-<meta name="twitter:description" content="读侯捷老师的《STL源码剖析》，有一种醍醐灌顶的感觉，侯捷先生对STL的实现，有着非常透彻的理解，通过他的思考方式和他的目光之所在，能够精准的触摸到STL的精髓。《STL源码剖析》对STL的一些技法做了有点有面的剖析，从入门基础、空间配置、空间管理，到类型萃取，都是理解STL必不可少的东西，然而很多的STL介绍中，往往直接进入到使用方法，而忽视了这一部分的基础性和重要性，缺少了这一部分，将不可能真">
+<meta name="twitter:title" content="guoruihe's blog -- 贺国睿">
+<meta name="twitter:description" content="guoruihe, blog, iOS, C/C++, Java, Object-C, PHP, Android">
   
     <link rel="alternative" href="/atom.xml" title="guoruihe&#39;s blog -- 贺国睿" type="application/atom+xml">
   
@@ -64,68 +63,39 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-【C-】【STL】读《STL源码剖析》笔记" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2015/08/23/【C-】【STL】读《STL源码剖析》笔记/" class="article-date">
-  <time datetime="2015-08-23T08:09:45.000Z" itemprop="datePublished">2015-08-23</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/C/">C++</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
+        <section id="main">
   
-    <h1 class="article-title" itemprop="name">
-      【C++】【STL】读《STL源码剖析》笔记
+  
+    
+    
+      
+      
+      <section class="archives-wrap">
+        <div class="archive-year-wrap">
+          <a href="/archives/2015" class="archive-year">2015</a>
+        </div>
+        <div class="archives">
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      <a href="/2015/08/30/【iOS】【容器】容器的内存管理笔记/" class="archive-article-date">
+  <time datetime="2015-08-30T09:32:53.000Z" itemprop="datePublished">8月 30</time>
+</a>
+      
+  
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="/2015/08/30/【iOS】【容器】容器的内存管理笔记/">【iOS】【容器】容器的内存管理笔记</a>
     </h1>
   
 
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>读侯捷老师的《STL源码剖析》，有一种醍醐灌顶的感觉，侯捷先生对STL的实现，有着非常透彻的理解，通过他的思考方式和他的目光之所在，能够精准的触摸到STL的精髓。<br>《STL源码剖析》对STL的一些技法做了有点有面的剖析，从入门基础、空间配置、空间管理，到类型萃取，都是理解STL必不可少的东西，然而很多的STL介绍中，往往直接进入到使用方法，而忽视了这一部分的基础性和重要性，缺少了这一部分，将不可能真正理解STL。书中对各种容器进行了细致剖析，简略得当，直击命脉，不愧是侯捷先生。算法的介绍，也是尽可能的直通筋脉，避免了太多血肉铺陈，在简短的篇幅里，向我传授了大量的算法精髓。最后，仿函数、配接器也都是见识独到，并没有因为是最后的内容而有丝毫的懈怠。书中，每一块都是金石！<br><a id="more"></a></p>
-<h1 id="STL空间配置和管理">STL空间配置和管理</h1><h1 id="STL类型萃取">STL类型萃取</h1>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/08/23/【C-】【STL】读《STL源码剖析》笔记/" data-id="cidyawwc100004ouvyoyssfj4" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/C/">C++</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/STL/">STL</a></li></ul>
-
-    </footer>
+    </header>
   </div>
-  
-    
-<nav id="article-nav">
-  
-    <a href="/2015/08/23/【iOS】【UINavigationController】UINavigationController使用笔记/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          【iOS】【UINavigationController】UINavigationController使用笔记
-        
-      </div>
-    </a>
-  
-  
-    <a href="/2015/08/19/【iOS】【UITableView】UITableView使用的简单笔记/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">【iOS】【UITableView】UITableView使用的简单笔记</div>
-    </a>
-  
-</nav>
-
-  
 </article>
-
+  
+  
+    </div></section>
+  
 </section>
         
           <aside id="sidebar">

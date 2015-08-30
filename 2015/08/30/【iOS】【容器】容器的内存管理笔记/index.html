@@ -3,17 +3,21 @@
 <head>
   <meta charset="utf-8">
   
-  <title>guoruihe&#39;s blog -- 贺国睿</title>
+  <title>【iOS】【容器】容器的内存管理笔记 | guoruihe&#39;s blog -- 贺国睿</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="guoruihe, blog, iOS, C/C++, Java, Object-C, PHP, Android">
-<meta property="og:type" content="website">
-<meta property="og:title" content="guoruihe's blog -- 贺国睿">
-<meta property="og:url" content="http://yoursite.com/index.html">
+  <meta name="description" content="iOS提供了很多的容器，包括可变容器、不可变容器，如NSArray、NSMutableArray、NSSet、NSMutableSet、NSIndexSet、NSDictionary、NSMutableDictionary、NSHashTable等等，这些容器的使用，对于OC老手来说不成问题，对其各类操作的本质实现也是深入探究，所以，作为新手的我，也来好好学习和探究一下。
+&amp;lt;–!more–&amp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【iOS】【容器】容器的内存管理笔记">
+<meta property="og:url" content="http://yoursite.com/2015/08/30/【iOS】【容器】容器的内存管理笔记/index.html">
 <meta property="og:site_name" content="guoruihe's blog -- 贺国睿">
-<meta property="og:description" content="guoruihe, blog, iOS, C/C++, Java, Object-C, PHP, Android">
+<meta property="og:description" content="iOS提供了很多的容器，包括可变容器、不可变容器，如NSArray、NSMutableArray、NSSet、NSMutableSet、NSIndexSet、NSDictionary、NSMutableDictionary、NSHashTable等等，这些容器的使用，对于OC老手来说不成问题，对其各类操作的本质实现也是深入探究，所以，作为新手的我，也来好好学习和探究一下。
+&amp;lt;–!more–&amp;">
+<meta property="og:updated_time" content="2015-08-30T09:34:56.567Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="guoruihe's blog -- 贺国睿">
-<meta name="twitter:description" content="guoruihe, blog, iOS, C/C++, Java, Object-C, PHP, Android">
+<meta name="twitter:title" content="【iOS】【容器】容器的内存管理笔记">
+<meta name="twitter:description" content="iOS提供了很多的容器，包括可变容器、不可变容器，如NSArray、NSMutableArray、NSSet、NSMutableSet、NSIndexSet、NSDictionary、NSMutableDictionary、NSHashTable等等，这些容器的使用，对于OC老手来说不成问题，对其各类操作的本质实现也是深入探究，所以，作为新手的我，也来好好学习和探究一下。
+&amp;lt;–!more–&amp;">
   
     <link rel="alternative" href="/atom.xml" title="guoruihe&#39;s blog -- 贺国睿" type="application/atom+xml">
   
@@ -63,9 +67,7 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main">
-  
-    <article id="post-【iOS】【容器】容器的内存管理笔记" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-【iOS】【容器】容器的内存管理笔记" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2015/08/30/【iOS】【容器】容器的内存管理笔记/" class="article-date">
   <time datetime="2015-08-30T09:32:53.000Z" itemprop="datePublished">2015-08-30</time>
@@ -82,8 +84,8 @@
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/08/30/【iOS】【容器】容器的内存管理笔记/">【iOS】【容器】容器的内存管理笔记</a>
+    <h1 class="article-title" itemprop="name">
+      【iOS】【容器】容器的内存管理笔记
     </h1>
   
 
@@ -165,241 +167,20 @@ array3 = <span class="literal">nil</span>;
     </footer>
   </div>
   
-</article>
-
-
+    
+<nav id="article-nav">
   
-    <article id="post-【iOS】【UINavigationController】UINavigationController使用笔记" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2015/08/23/【iOS】【UINavigationController】UINavigationController使用笔记/" class="article-date">
-  <time datetime="2015-08-23T08:21:40.000Z" itemprop="datePublished">2015-08-23</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/iOS笔记/">iOS笔记</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/08/23/【iOS】【UINavigationController】UINavigationController使用笔记/">【iOS】【UINavigationController】UINavigationController使用笔记</a>
-    </h1>
+    <a href="/2015/08/23/【iOS】【UINavigationController】UINavigationController使用笔记/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">【iOS】【UINavigationController】UINavigationController使用笔记</div>
+    </a>
   
+</nav>
 
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>UINavigationController是iOS中，极其重要一个控件之一，几乎在所有的具有View切换、导航控制中，都是必不可少的、不可替代的控件。<br>这篇文章实际上不是对UINavigationController使用的特别介绍，而是我在使用中遇到的一些坑，仅做记录，同时给其他使用这个控件的人，提供一些思路，如果有错误，还请指正。<br>
-        
-          <p class="article-more-link">
-            <a href="/2015/08/23/【iOS】【UINavigationController】UINavigationController使用笔记/#more">阅读全文</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/08/23/【iOS】【UINavigationController】UINavigationController使用笔记/" data-id="cidyawwe8000y4ouvx35cf65m" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/UINavigationController/">UINavigationController</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
-
-    </footer>
-  </div>
   
 </article>
 
-
-  
-    <article id="post-【C-】【STL】读《STL源码剖析》笔记" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2015/08/23/【C-】【STL】读《STL源码剖析》笔记/" class="article-date">
-  <time datetime="2015-08-23T08:09:45.000Z" itemprop="datePublished">2015-08-23</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/C/">C++</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/08/23/【C-】【STL】读《STL源码剖析》笔记/">【C++】【STL】读《STL源码剖析》笔记</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>读侯捷老师的《STL源码剖析》，有一种醍醐灌顶的感觉，侯捷先生对STL的实现，有着非常透彻的理解，通过他的思考方式和他的目光之所在，能够精准的触摸到STL的精髓。<br>《STL源码剖析》对STL的一些技法做了有点有面的剖析，从入门基础、空间配置、空间管理，到类型萃取，都是理解STL必不可少的东西，然而很多的STL介绍中，往往直接进入到使用方法，而忽视了这一部分的基础性和重要性，缺少了这一部分，将不可能真正理解STL。书中对各种容器进行了细致剖析，简略得当，直击命脉，不愧是侯捷先生。算法的介绍，也是尽可能的直通筋脉，避免了太多血肉铺陈，在简短的篇幅里，向我传授了大量的算法精髓。最后，仿函数、配接器也都是见识独到，并没有因为是最后的内容而有丝毫的懈怠。书中，每一块都是金石！<br>
-        
-          <p class="article-more-link">
-            <a href="/2015/08/23/【C-】【STL】读《STL源码剖析》笔记/#more">阅读全文</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/08/23/【C-】【STL】读《STL源码剖析》笔记/" data-id="cidyawwc100004ouvyoyssfj4" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/C/">C++</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/STL/">STL</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-【iOS】【UITableView】UITableView使用的简单笔记" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2015/08/19/【iOS】【UITableView】UITableView使用的简单笔记/" class="article-date">
-  <time datetime="2015-08-19T15:49:34.000Z" itemprop="datePublished">2015-08-19</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/iOS笔记/">iOS笔记</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/08/19/【iOS】【UITableView】UITableView使用的简单笔记/">【iOS】【UITableView】UITableView使用的简单笔记</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/08/19/【iOS】【UITableView】UITableView使用的简单笔记/" data-id="cidyawwdz000t4ouv25xy1qjs" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/UITableView/">UITableView</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-总纲" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2015/08/18/总纲/" class="article-date">
-  <time datetime="2015-08-18T15:43:19.000Z" itemprop="datePublished">2015-08-18</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/ALL/">ALL</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/08/18/总纲/">总纲</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>记录一下，需要学习、研究、探索的内容<br>
-        
-          <p class="article-more-link">
-            <a href="/2015/08/18/总纲/#more">阅读全文</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/08/18/总纲/" data-id="cidyawwdi00074ouv44xnu4m6" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/个人规划/">个人规划</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-【iOS】【沙盒机制】sandbox机制" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2015/08/16/【iOS】【沙盒机制】sandbox机制/" class="article-date">
-  <time datetime="2015-08-16T15:53:30.000Z" itemprop="datePublished">2015-08-16</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/iOS/">iOS</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/08/16/【iOS】【沙盒机制】sandbox机制/">【iOS】【沙盒机制】sandbox机制</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>iOS操作系统为了保证应用的安全性，规定了应用只能访问指定的目录下的资源，超出这个目录的任何位置都将不能够访问、不能操作。这个目录被称为沙盒。<br>iOS要求应用所需要的所有非代码、可执行数据，都需要存放在沙盒下，包括了图像，图标，声音，映像，属性列表，文本文件等。<br>不仅如此，当将数据存储到指定目录下时，数据还将受到严格的检测，只有在应用权限下的数据操作，才能够被允许执行。<br>
-        
-          <p class="article-more-link">
-            <a href="/2015/08/16/【iOS】【沙盒机制】sandbox机制/#more">阅读全文</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/08/16/【iOS】【沙盒机制】sandbox机制/" data-id="cidyawwdo000c4ouvfc7s4lvp" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/sandbox/">sandbox</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/沙盒机制/">沙盒机制</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-  
 </section>
         
           <aside id="sidebar">
