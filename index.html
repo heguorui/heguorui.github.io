@@ -92,72 +92,15 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>iOS提供了很多的容器，包括可变容器、不可变容器，如NSArray、NSMutableArray、NSSet、NSMutableSet、NSIndexSet、NSDictionary、NSMutableDictionary、NSHashTable等等，这些容器的使用，对于OC老手来说不成问题，对其各类操作的本质实现也是深入探究，所以，作为新手的我，也来好好学习和探究一下。</p>
-<p>&lt;–!more–&gt;</p>
-<p>容器的基本用法<br>容器的基本用法很多，就不一一探究了。</p>
-<p>容器的add操作<br>容器中只能容纳对象类型的变量，所以，需要关注一下容器的add操作，在内存中的变化。<br>容器在add对象时，会将对象进行浅复制，也就是说，在add操作时，所执行的是retain操作，这样保证了对象被其他引用释放时，容器还能持有add进来的对象，这是很容易明白的。</p>
-<p>容器的remove操作<br>容器在remove对象时，将会执行release操作，如果对象此时引用计数还不为1，则不会释放对象，如果引用计数已经是1，那么将释放对象。<br>所以，请使用MRC时注意，当你将一个对象add到容器后，如果你不打算在容器外使用这个对象，那么，请尽快将这个对象release掉，并且消灭野指针，否则离开作用域后，你将会出现内存泄漏问题。</p>
-<p>容器除了在remove操作时，在自己被release时，也是会将放入容器中的对象进行release处理，这个也很好理解，不容容器都销毁了，那就是内存泄漏了。</p>
-<p>代码测试：</p>
-<pre><code><span class="built_in">NSString</span> *newstr1 = [<span class="built_in">NSString</span> stringWithFormat:<span class="string">@"%@"</span>, <span class="string">@"a"</span>];
-<span class="built_in">NSString</span> *newstr2 = [<span class="built_in">NSString</span> stringWithFormat:<span class="string">@"%@"</span>, <span class="string">@"b"</span>];
-<span class="built_in">NSLog</span>(<span class="string">@"初始化时："</span>);
-<span class="built_in">NSLog</span>(<span class="string">@"newstr1 retain count : %lu"</span>,(<span class="keyword">unsigned</span> <span class="keyword">long</span>)[newstr1 retainCount]);
-<span class="built_in">NSLog</span>(<span class="string">@"newstr2 retain count : %lu"</span>,(<span class="keyword">unsigned</span> <span class="keyword">long</span>)[newstr2 retainCount]);
-
-<span class="built_in">NSLog</span>(<span class="string">@"添加到array1："</span>);
-<span class="built_in">NSMutableArray</span> *array1 = [<span class="built_in">NSMutableArray</span> arrayWithObjects:newstr1, newstr2,<span class="literal">nil</span>];
-<span class="built_in">NSLog</span>(<span class="string">@"newstr1 retain count : %lu"</span>,(<span class="keyword">unsigned</span> <span class="keyword">long</span>)[newstr1 retainCount]);
-<span class="built_in">NSLog</span>(<span class="string">@"newstr2 retain count : %lu"</span>,(<span class="keyword">unsigned</span> <span class="keyword">long</span>)[newstr2 retainCount]);
-<span class="keyword">for</span>(<span class="built_in">NSString</span> *str <span class="keyword">in</span> array1){
-    <span class="built_in">NSLog</span>(<span class="string">@"str in array1 retain count : %lu"</span>,(<span class="keyword">unsigned</span> <span class="keyword">long</span>)[str retainCount]);
-}
-
-<span class="built_in">NSLog</span>(<span class="string">@"添加到array2："</span>);
-<span class="built_in">NSMutableArray</span> *array2 = [<span class="built_in">NSMutableArray</span> arrayWithObjects:newstr1, newstr2,<span class="literal">nil</span>];
-<span class="built_in">NSLog</span>(<span class="string">@"newstr1 retain count : %lu"</span>,(<span class="keyword">unsigned</span> <span class="keyword">long</span>)[newstr1 retainCount]);
-<span class="built_in">NSLog</span>(<span class="string">@"newstr2 retain count : %lu"</span>,(<span class="keyword">unsigned</span> <span class="keyword">long</span>)[newstr2 retainCount]);
-<span class="keyword">for</span>(<span class="built_in">NSString</span> *str <span class="keyword">in</span> array1){
-    <span class="built_in">NSLog</span>(<span class="string">@"str in array1 retain count : %lu"</span>,(<span class="keyword">unsigned</span> <span class="keyword">long</span>)[str retainCount]);
-}
-<span class="keyword">for</span>(<span class="built_in">NSString</span> *str <span class="keyword">in</span> array2){
-    <span class="built_in">NSLog</span>(<span class="string">@"str in array2 retain count : %lu"</span>,(<span class="keyword">unsigned</span> <span class="keyword">long</span>)[str retainCount]);
-}
-
-<span class="built_in">NSLog</span>(<span class="string">@"从array2移除："</span>);
-[array2 removeAllObjects];
-<span class="built_in">NSLog</span>(<span class="string">@"newstr1 retain count : %lu"</span>,(<span class="keyword">unsigned</span> <span class="keyword">long</span>)[newstr1 retainCount]);
-<span class="built_in">NSLog</span>(<span class="string">@"newstr2 retain count : %lu"</span>,(<span class="keyword">unsigned</span> <span class="keyword">long</span>)[newstr2 retainCount]);
-
-<span class="keyword">for</span>(<span class="built_in">NSString</span> *str <span class="keyword">in</span> array1){
-    <span class="built_in">NSLog</span>(<span class="string">@"str in array1 retain count : %lu"</span>,(<span class="keyword">unsigned</span> <span class="keyword">long</span>)[str retainCount]);
-}
-
-<span class="built_in">NSLog</span>(<span class="string">@"添加到array3："</span>);
-<span class="built_in">NSMutableArray</span> *array3 = [[<span class="built_in">NSMutableArray</span> alloc] initWithObjects:newstr1, newstr2, <span class="literal">nil</span>];
-<span class="built_in">NSLog</span>(<span class="string">@"newstr1 retain count : %lu"</span>,(<span class="keyword">unsigned</span> <span class="keyword">long</span>)[newstr1 retainCount]);
-<span class="built_in">NSLog</span>(<span class="string">@"newstr2 retain count : %lu"</span>,(<span class="keyword">unsigned</span> <span class="keyword">long</span>)[newstr2 retainCount]);
-<span class="keyword">for</span>(<span class="built_in">NSString</span> *str <span class="keyword">in</span> array1){
-    <span class="built_in">NSLog</span>(<span class="string">@"str in array1 retain count : %lu"</span>,(<span class="keyword">unsigned</span> <span class="keyword">long</span>)[str retainCount]);
-}
-<span class="keyword">for</span>(<span class="built_in">NSString</span> *str <span class="keyword">in</span> array3){
-    <span class="built_in">NSLog</span>(<span class="string">@"str in array3 retain count : %lu"</span>,(<span class="keyword">unsigned</span> <span class="keyword">long</span>)[str retainCount]);
-}
-
-<span class="built_in">NSLog</span>(<span class="string">@"将array3销毁："</span>);
-[array3 release];
-array3 = <span class="literal">nil</span>;
-<span class="built_in">NSLog</span>(<span class="string">@"newstr1 retain count : %lu"</span>,(<span class="keyword">unsigned</span> <span class="keyword">long</span>)[newstr1 retainCount]);
-<span class="built_in">NSLog</span>(<span class="string">@"newstr2 retain count : %lu"</span>,(<span class="keyword">unsigned</span> <span class="keyword">long</span>)[newstr2 retainCount]);
-
-<span class="keyword">for</span>(<span class="built_in">NSString</span> *str <span class="keyword">in</span> array1){
-    <span class="built_in">NSLog</span>(<span class="string">@"str in array1 retain count : %lu"</span>,(<span class="keyword">unsigned</span> <span class="keyword">long</span>)[str retainCount]);
-}
-</code></pre><p>输出结果：<br>    2015-08-29 16:19:06.014 MemoryOperateTest[28262:434295] 初始化时：<br>    2015-08-29 16:19:06.015 MemoryOperateTest[28262:434295] newstr1 retain count : 1<br>    2015-08-29 16:19:06.015 MemoryOperateTest[28262:434295] newstr2 retain count : 1<br>    2015-08-29 16:19:06.015 MemoryOperateTest[28262:434295] 添加到array1：<br>    2015-08-29 16:19:06.015 MemoryOperateTest[28262:434295] newstr1 retain count : 2<br>    2015-08-29 16:19:06.015 MemoryOperateTest[28262:434295] newstr2 retain count : 2<br>    2015-08-29 16:19:06.015 MemoryOperateTest[28262:434295] str in array1 retain count : 2<br>    2015-08-29 16:19:06.015 MemoryOperateTest[28262:434295] str in array1 retain count : 2<br>    2015-08-29 16:19:06.015 MemoryOperateTest[28262:434295] 添加到array2：<br>    2015-08-29 16:19:06.016 MemoryOperateTest[28262:434295] newstr1 retain count : 3<br>    2015-08-29 16:19:06.016 MemoryOperateTest[28262:434295] newstr2 retain count : 3<br>    2015-08-29 16:19:06.016 MemoryOperateTest[28262:434295] str in array1 retain count : 3<br>    2015-08-29 16:19:06.016 MemoryOperateTest[28262:434295] str in array1 retain count : 3<br>    2015-08-29 16:19:06.016 MemoryOperateTest[28262:434295] str in array2 retain count : 3<br>    2015-08-29 16:19:06.016 MemoryOperateTest[28262:434295] str in array2 retain count : 3<br>    2015-08-29 16:19:06.016 MemoryOperateTest[28262:434295] 从array2移除：<br>    2015-08-29 16:19:06.016 MemoryOperateTest[28262:434295] newstr1 retain count : 2<br>    2015-08-29 16:19:06.016 MemoryOperateTest[28262:434295] newstr2 retain count : 2<br>    2015-08-29 16:19:06.017 MemoryOperateTest[28262:434295] str in array1 retain count : 2<br>    2015-08-29 16:19:06.017 MemoryOperateTest[28262:434295] str in array1 retain count : 2<br>    2015-08-29 16:19:06.017 MemoryOperateTest[28262:434295] 添加到array3：<br>    2015-08-29 16:19:06.017 MemoryOperateTest[28262:434295] newstr1 retain count : 3<br>    2015-08-29 16:19:06.017 MemoryOperateTest[28262:434295] newstr2 retain count : 3<br>    2015-08-29 16:19:06.017 MemoryOperateTest[28262:434295] str in array1 retain count : 3<br>    2015-08-29 16:19:06.017 MemoryOperateTest[28262:434295] str in array1 retain count : 3<br>    2015-08-29 16:19:06.017 MemoryOperateTest[28262:434295] str in array3 retain count : 3<br>    2015-08-29 16:19:06.018 MemoryOperateTest[28262:434295] str in array3 retain count : 3<br>    2015-08-29 16:19:06.018 MemoryOperateTest[28262:434295] 将array3销毁：<br>    2015-08-29 16:19:06.018 MemoryOperateTest[28262:434295] newstr1 retain count : 2<br>    2015-08-29 16:19:06.018 MemoryOperateTest[28262:434295] newstr2 retain count : 2<br>    2015-08-29 16:19:06.018 MemoryOperateTest[28262:434295] str in array1 retain count : 2<br>    2015-08-29 16:19:06.018 MemoryOperateTest[28262:434295] str in array1 retain count : 2</p>
-
+        
+          <p class="article-more-link">
+            <a href="/2015/08/30/【iOS】【容器】容器的内存管理笔记/#more">阅读全文</a>
+          </p>
+        
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/08/30/【iOS】【容器】容器的内存管理笔记/" data-id="cidyawwdu000l4ouvb0sktfl1" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/08/30/【iOS】【容器】容器的内存管理笔记/" data-id="cidyazneo000ltwuvh72fg8qi" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/内存管理/">内存管理</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/容器/">容器</a></li></ul>
@@ -204,7 +147,7 @@ array3 = <span class="literal">nil</span>;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/08/23/【iOS】【UINavigationController】UINavigationController使用笔记/" data-id="cidyawwe8000y4ouvx35cf65m" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/08/23/【iOS】【UINavigationController】UINavigationController使用笔记/" data-id="cidyaznfh000ytwuvyswmdbuk" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/UINavigationController/">UINavigationController</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
@@ -251,7 +194,7 @@ array3 = <span class="literal">nil</span>;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/08/23/【C-】【STL】读《STL源码剖析》笔记/" data-id="cidyawwc100004ouvyoyssfj4" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/08/23/【C-】【STL】读《STL源码剖析》笔记/" data-id="cidyaznc00000twuv3q80lsbv" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/C/">C++</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/STL/">STL</a></li></ul>
@@ -293,7 +236,7 @@ array3 = <span class="literal">nil</span>;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/08/19/【iOS】【UITableView】UITableView使用的简单笔记/" data-id="cidyawwdz000t4ouv25xy1qjs" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/08/19/【iOS】【UITableView】UITableView使用的简单笔记/" data-id="cidyaznf5000ttwuvbxob4yqw" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/UITableView/">UITableView</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
@@ -340,7 +283,7 @@ array3 = <span class="literal">nil</span>;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/08/18/总纲/" data-id="cidyawwdi00074ouv44xnu4m6" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/08/18/总纲/" data-id="cidyazndz0007twuvjjg9g80z" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/个人规划/">个人规划</a></li></ul>
@@ -387,7 +330,7 @@ array3 = <span class="literal">nil</span>;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/08/16/【iOS】【沙盒机制】sandbox机制/" data-id="cidyawwdo000c4ouvfc7s4lvp" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/08/16/【iOS】【沙盒机制】sandbox机制/" data-id="cidyazneh000ctwuv844aprts" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/sandbox/">sandbox</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/沙盒机制/">沙盒机制</a></li></ul>
